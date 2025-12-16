@@ -18,8 +18,8 @@ Laravel package for [MX18](https://mx18.com) Email API integration. Send single/
 
 ## Requirements
 
-- PHP 8.1+
-- Laravel 10.0+ or 11.0+
+- PHP 8.3+
+- Laravel 10.0+, 11.0+, or 12.0+
 - MX18 account with API token
 
 ## Installation
