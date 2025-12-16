@@ -2,6 +2,17 @@
 
 All notable changes to `mx18-laravel` will be documented in this file.
 
+## 1.1.0 - 2025-12-16
+
+### Added
+- Laravel 8.x support
+- PHP 8.0 support
+- Backward compatibility with older Laravel versions
+
+### Changed
+- Updated minimum requirements to support Laravel 8+
+- Updated test dependencies for broader compatibility
+
 ## 1.0.0 - 2025-12-16
 
 ### Added
