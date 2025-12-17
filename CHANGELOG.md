@@ -2,6 +2,15 @@
 
 All notable changes to `mx18-laravel` will be documented in this file.
 
+## 2.1.0 - 2025-12-17
+
+### Added
+- `addRecipient()` method for efficient bulk email sending
+- Support for multiple recipients with individual personalization in single API call
+
+### Improved
+- More efficient bulk email handling without requiring separate MX18Mail objects per recipient
+
 ## 2.0.0 - 2025-12-17
 
 ### Added

@@ -5,6 +5,12 @@
 
 Laravel package for [MX18](https://mx18.com) Email API integration. Send single/bulk emails and handle webhooks with ease.
 
+## Version 2.1.0 - New Feature
+
+🚀 **New Features:**
+- ✅ `addRecipient()` method for efficient bulk emails
+- ✅ Multiple recipients with individual personalization in single API call
+
 ## Version 2.0.0 - Major Release
 
 🚀 **New Features:**
@@ -129,6 +135,19 @@ $mail = (new MX18Mail())
         'customerAccountNumber' => '12345',
         'campaignId' => 'summer2024'
     ]);
+
+$response = MX18::send($mail);
+```
+
+### Efficient Bulk Email (New in v2.1.0)
+
+```php
+$mail = (new MX18Mail())
+    ->from('newsletter@yourdomain.com', 'Your Company')
+    ->addRecipient('user1@example.com', 'John', ['name' => 'John', 'plan' => 'Premium'])
+    ->addRecipient('user2@example.com', 'Jane', ['name' => 'Jane', 'plan' => 'Basic'])
+    ->subject('Welcome {{name}}!')
+    ->html('<h1>Hi {{name}}</h1><p>Your {{plan}} plan is ready.</p>');
 
 $response = MX18::send($mail);
 ```

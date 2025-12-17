@@ -94,6 +94,11 @@ class MX18Mail
         return $this;
     }
 
+    public function addRecipient(string $email, string $name = null, array $personalizationData = []): self
+    {
+        return $this->to($email, $name, $personalizationData);
+    }
+
     public function globalPersonalization(array $data): self
     {
         $this->data['globalPersonalizationData'] = $data;
