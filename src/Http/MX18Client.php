@@ -20,7 +20,7 @@ class MX18Client
         $this->client = new Client([
             'base_uri' => $this->baseUrl,
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiToken,
+                'X-Api-Key' => $this->apiToken,
                 'Content-Type' => 'application/json',
             ],
         ]);

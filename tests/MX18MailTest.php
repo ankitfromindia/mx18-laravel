@@ -36,4 +36,28 @@ class MX18MailTest extends TestCase
         $this->assertEquals(['name' => 'John'], $data['to'][0]['personalizationData']);
         $this->assertEquals(['company' => 'Test Co'], $data['globalPersonalizationData']);
     }
+
+    public function test_can_add_custom_headers()
+    {
+        $mail = (new MX18Mail())
+            ->from('sender@example.com')
+            ->to('recipient@example.com')
+            ->headers(['X-Custom' => 'Value', 'X-Mailer' => 'MX18']);
+
+        $data = $mail->toArray();
+
+        $this->assertEquals(['X-Custom' => 'Value', 'X-Mailer' => 'MX18'], $data['message']['headers']);
+    }
+
+    public function test_can_add_custom_arguments()
+    {
+        $mail = (new MX18Mail())
+            ->from('sender@example.com')
+            ->to('recipient@example.com')
+            ->customArguments(['accountId' => '12345', 'campaignId' => 'test']);
+
+        $data = $mail->toArray();
+
+        $this->assertEquals(['accountId' => '12345', 'campaignId' => 'test'], $data['customArguments']);
+    }
 }

@@ -82,6 +82,18 @@ class MX18Mail
         return $this;
     }
 
+    public function headers(array $headers): self
+    {
+        $this->data['message']['headers'] = $headers;
+        return $this;
+    }
+
+    public function customArguments(array $arguments): self
+    {
+        $this->data['customArguments'] = $arguments;
+        return $this;
+    }
+
     public function globalPersonalization(array $data): self
     {
         $this->data['globalPersonalizationData'] = $data;

@@ -5,6 +5,17 @@
 
 Laravel package for [MX18](https://mx18.com) Email API integration. Send single/bulk emails and handle webhooks with ease.
 
+## Version 2.0.0 - Major Release
+
+🚀 **New Features:**
+- ✅ Custom headers support
+- ✅ Custom arguments for tracking
+- ✅ Full MX18 API v1 compatibility
+
+⚠️ **Breaking Changes:**
+- Authentication changed from `Bearer` token to `X-Api-Key` header
+- See [Migration Guide](#migration-from-v1x) below
+
 ## Features
 
 - ✅ Send single emails
@@ -14,6 +25,8 @@ Laravel package for [MX18](https://mx18.com) Email API integration. Send single/
 - ✅ File attachments
 - ✅ Email personalization
 - ✅ CC/BCC recipients
+- ✅ Custom headers
+- ✅ Custom arguments
 - ✅ Laravel auto-discovery
 
 ## Requirements
@@ -96,6 +109,26 @@ $mail = (new MX18Mail())
     ->subject('Invoice Attached')
     ->html('<p>Please find your invoice attached.</p>')
     ->attach($pdfContent, 'invoice.pdf', 'application/pdf');
+
+$response = MX18::send($mail);
+```
+
+### Custom Headers and Arguments
+
+```php
+$mail = (new MX18Mail())
+    ->from('sender@yourdomain.com')
+    ->to('recipient@example.com')
+    ->subject('Email with Custom Headers')
+    ->html('<p>Email content</p>')
+    ->headers([
+        'X-Custom-Header' => 'CustomValue',
+        'X-Mailer' => 'MX18 API'
+    ])
+    ->customArguments([
+        'customerAccountNumber' => '12345',
+        'campaignId' => 'summer2024'
+    ]);
 
 $response = MX18::send($mail);
 ```
@@ -252,3 +285,38 @@ If you discover any security vulnerabilities, please email security@ankitfromind
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Migration from v1.x
+
+### Breaking Changes in v2.0.0
+
+The authentication method has changed to match the official MX18 API specification:
+
+**Before (v1.x):**
+```php
+// Used Authorization: Bearer header (incorrect)
+```
+
+**After (v2.0.0):**
+```php
+// Now uses X-Api-Key header (correct)
+// No code changes needed - just update your package version
+```
+
+### New Features Available
+
+```php
+// Custom headers
+$mail->headers([
+    'X-Campaign-ID' => 'summer2024',
+    'X-Mailer' => 'My App'
+]);
+
+// Custom arguments for tracking
+$mail->customArguments([
+    'userId' => '12345',
+    'source' => 'newsletter'
+]);
+```
+
+Your existing code will continue to work without changes. Only the internal authentication method has been updated.

@@ -2,6 +2,23 @@
 
 All notable changes to `mx18-laravel` will be documented in this file.
 
+## 2.0.0 - 2025-12-17
+
+### Added
+- Custom headers support via `headers()` method
+- Custom arguments support via `customArguments()` method
+- Full compatibility with MX18 API v1 specification
+- Enhanced documentation with complete API examples
+
+### Changed
+- **BREAKING**: Authentication changed from `Authorization: Bearer` to `X-Api-Key` header
+- Updated API client to match official MX18 API specification
+- Improved error handling and response parsing
+
+### Fixed
+- API authentication method now correctly uses X-Api-Key header
+- Resolved compatibility issues with MX18 API v1
+
 ## 1.2.0 - 2025-12-16
 
 ### Changed
