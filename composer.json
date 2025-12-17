@@ -1,6 +1,6 @@
 {
     "name": "ankitfromindia/mx18-laravel",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "type": "library",
     "description": "Laravel package for MX18 Email API integration - send single/bulk emails and handle webhooks",
     "keywords": [

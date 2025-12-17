@@ -29,7 +29,9 @@ class MX18Client
     public function send(MX18Mail $mail): array
     {
         try {
-            $response = $this->client->post('/mail/send', [
+            $fullUrl = rtrim($this->baseUrl, '/') . '/mail/send';
+            
+            $response = $this->client->post($fullUrl, [
                 'json' => $mail->toArray()
             ]);
 
