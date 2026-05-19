@@ -105,6 +105,12 @@ class MX18Mail
         return $this;
     }
 
+    public function unsubscribe($addUnsubscribe = false)
+    {
+        $this->data['unsubscribe'] = $addUnsubscribe;
+        return $this;
+    }
+    
     public function toArray(): array
     {
         return $this->data;
