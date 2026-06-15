@@ -110,6 +110,12 @@ class MX18Mail
         $this->data['unsubscribe'] = $addUnsubscribe;
         return $this;
     }
+
+    public function campaign(int|string $campaignId): self
+    {
+        $this->data['campaign_id'] = $campaignId;
+        return $this;
+    }
     
     public function toArray(): array
     {
