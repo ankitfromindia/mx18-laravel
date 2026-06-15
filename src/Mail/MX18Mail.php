@@ -6,19 +6,49 @@ class MX18Mail
 {
     private $data = [];
 
+    /**
+     * Sanitize display name for MX18 API
+     * Removes invalid characters that MX18 rejects
+     */
+    private function sanitizeDisplayName(?string $name): string
+    {
+        if ($name === null || trim($name) === '') {
+            return '';
+        }
+        
+        // Remove characters that MX18 considers invalid for display names:
+        // - Control characters, newlines, tabs
+        // - Angle brackets (could be interpreted as email addresses)
+        // - Quotes that could break email headers
+        // - Backslashes and other escape characters
+        $sanitized = preg_replace('/[\x00-\x1F\x7F<>"\'\\\\/;,]/', '', $name);
+        
+        // Collapse multiple spaces into one
+        $sanitized = preg_replace('/\s+/', ' ', $sanitized);
+        
+        // Trim and limit length (RFC 5321 recommends max 64 chars for local part)
+        return trim(substr($sanitized, 0, 64));
+    }
+
     public function from(string $email, string $name = null): self
     {
         $this->data['from'] = ['email' => $email];
-        if ($name) $this->data['from']['name'] = $name;
+        $sanitizedName = $this->sanitizeDisplayName($name);
+        if ($sanitizedName !== '') {
+            $this->data['from']['name'] = $sanitizedName;
+        }
         return $this;
     }
 
     public function to(string $email, string $name = null, array $personalizationData = []): self
     {
         $recipient = ['email' => $email];
-        if ($name) $recipient['name'] = $name;
+        $sanitizedName = $this->sanitizeDisplayName($name);
+        if ($sanitizedName !== '') {
+            $recipient['name'] = $sanitizedName;
+        }
         if ($personalizationData) $recipient['personalizationData'] = $personalizationData;
-        
+
         $this->data['to'][] = $recipient;
         return $this;
     }
@@ -26,8 +56,11 @@ class MX18Mail
     public function cc(string $email, string $name = null): self
     {
         $recipient = ['email' => $email];
-        if ($name) $recipient['name'] = $name;
-        
+        $sanitizedName = $this->sanitizeDisplayName($name);
+        if ($sanitizedName !== '') {
+            $recipient['name'] = $sanitizedName;
+        }
+
         $this->data['cc'][] = $recipient;
         return $this;
     }
@@ -35,8 +68,11 @@ class MX18Mail
     public function bcc(string $email, string $name = null): self
     {
         $recipient = ['email' => $email];
-        if ($name) $recipient['name'] = $name;
-        
+        $sanitizedName = $this->sanitizeDisplayName($name);
+        if ($sanitizedName !== '') {
+            $recipient['name'] = $sanitizedName;
+        }
+
         $this->data['bcc'][] = $recipient;
         return $this;
     }
@@ -44,7 +80,10 @@ class MX18Mail
     public function replyTo(string $email, string $name = null): self
     {
         $this->data['replyTo'] = ['email' => $email];
-        if ($name) $this->data['replyTo']['name'] = $name;
+        $sanitizedName = $this->sanitizeDisplayName($name);
+        if ($sanitizedName !== '') {
+            $this->data['replyTo']['name'] = $sanitizedName;
+        }
         return $this;
     }
 
@@ -116,7 +155,7 @@ class MX18Mail
         $this->data['campaign_id'] = $campaignId;
         return $this;
     }
-    
+
     public function toArray(): array
     {
         return $this->data;
