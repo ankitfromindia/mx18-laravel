@@ -7,26 +7,24 @@ class MX18Mail
     private $data = [];
 
     /**
-     * Sanitize display name for MX18 API
-     * Removes invalid characters that MX18 rejects
+     * Sanitize display name for MX18 API.
+     *
+     * Removes control characters, angle brackets, quotes, backslashes, forward
+     * slashes, semicolons, and commas — characters MX18 rejects or that would
+     * corrupt email headers. Collapses whitespace and caps length at 64 chars.
+     *
+     * Uses `#` as the regex delimiter because the character class must
+     * contain a literal `/`.
      */
     private function sanitizeDisplayName(?string $name): string
     {
         if ($name === null || trim($name) === '') {
             return '';
         }
-        
-        // Remove characters that MX18 considers invalid for display names:
-        // - Control characters, newlines, tabs
-        // - Angle brackets (could be interpreted as email addresses)
-        // - Quotes that could break email headers
-        // - Backslashes and other escape characters
-        $sanitized = preg_replace('/[\x00-\x1F\x7F<>"\'\\\\/;,]/', '', $name);
-        
-        // Collapse multiple spaces into one
+
+        $sanitized = preg_replace('#[\x00-\x1F\x7F<>"\'\\\\/;,]#', '', $name);
         $sanitized = preg_replace('/\s+/', ' ', $sanitized);
-        
-        // Trim and limit length (RFC 5321 recommends max 64 chars for local part)
+
         return trim(substr($sanitized, 0, 64));
     }
 

@@ -2,6 +2,16 @@
 
 All notable changes to `mx18-laravel` will be documented in this file.
 
+## 2.5.2 - 2026-07-08
+
+### Fixed
+- `sanitizeDisplayName()` regex — the character class contained an unescaped `/`
+  that terminated the `/.../ ` delimiter early, causing every call with a
+  non-empty display name to fail with `preg_replace(): Unknown modifier ';'`.
+  Switched to `#...#` delimiter so the character class can carry `/` literally.
+  Every `->from()`, `->to()`, `->cc()`, `->bcc()`, and `->replyTo()` call with
+  a display name was affected in v2.5.1.
+
 ## 2.1.0 - 2025-12-17
 
 ### Added
