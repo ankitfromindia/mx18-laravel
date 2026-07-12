@@ -127,7 +127,10 @@ class MX18Mail
 
     public function customArguments(array $arguments): self
     {
-        $this->data['customArguments'] = $arguments;
+        $this->data['customArguments'] = array_merge(
+            $this->data['customArguments'] ?? [],
+            $arguments
+        );
         return $this;
     }
 
@@ -148,10 +151,14 @@ class MX18Mail
         return $this;
     }
 
+    /**
+     * Set campaign ID for tracking. Stored in customArguments for MX18 webhook callbacks.
+     */
     public function campaign(int|string $campaignId): self
     {
-        $this->data['campaign_id'] = $campaignId;
-        return $this;
+        // Store in customArguments so it comes back in webhook payloads
+        // MX18 API does not accept campaign_id at root level
+        return $this->customArguments(['campaign_id' => (string) $campaignId]);
     }
 
     public function toArray(): array

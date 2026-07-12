@@ -2,6 +2,14 @@
 
 All notable changes to `mx18-laravel` will be documented in this file.
 
+## 2.5.3 - 2026-07-12
+
+### Fixed
+- `campaign()` method now stores campaign_id in `customArguments` instead of at
+  root level of the request payload. MX18 API rejects unknown root-level fields,
+  causing 400 Bad Request errors in v2.5.0-v2.5.2.
+- `customArguments()` now merges with existing arguments instead of replacing.
+
 ## 2.5.2 - 2026-07-08
 
 ### Fixed
